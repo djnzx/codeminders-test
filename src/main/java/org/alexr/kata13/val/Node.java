@@ -18,16 +18,22 @@ public abstract class Node {
     this.children = children;
   }
 
-  public static Node File(File file, int level, Function<File, Long> counter) {
-    return new Node(file, level, counter.apply(file), Collections.emptyList()) {};
+  public static class NOther extends Node {
+    public NOther(File file, int level) {
+      super(file, level, 0, Collections.emptyList());
+    }
   }
 
-  public static Node Folder(File file, int level, long count, List<Node> children) {
-    return new Node(file, level, count, children) {};
+  public static class NFolder extends Node {
+    public NFolder(File file, int level, long count, List<Node> children) {
+      super(file, level, count, children);
+    }
   }
 
-  public static Node Other(File file, int level) {
-    return new Node(file, level, 0, Collections.emptyList()) {};
+  public static class NFile extends Node {
+    public NFile(File file, int level, Function<File, Long> counter) {
+      super(file, level, counter.apply(file), Collections.emptyList());
+    }
   }
 
 }

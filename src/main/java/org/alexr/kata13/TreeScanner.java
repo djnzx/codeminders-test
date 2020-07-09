@@ -12,10 +12,12 @@ import java.util.stream.Stream;
 public class TreeScanner {
   private final File root;
   private final Function<File, Long> counter;
+  private final Function<File, Boolean> fileFilter;
 
-  public TreeScanner(File root, Function<File, Long> counter) {
+  public TreeScanner(File root, Function<File, Long> counter, Function<File, Boolean> fileFilter) {
     this.root = root;
     this.counter = counter;
+    this.fileFilter = fileFilter;
   }
 
   static String last(File f) {
@@ -23,30 +25,27 @@ public class TreeScanner {
     return chunks[chunks.length-1];
   }
 
-  public boolean filteredExt(File fl) {
-    return fl.isFile() && fl.toString().toLowerCase().endsWith(".java");
-  }
-
   public Node scan(File file, int level) {
-    if (file.isFile() && filteredExt(file)) return Node.File(file, level, counter);
+    if (file.isFile() && fileFilter.apply(file)) return new Node.NFile(file, level, counter);
     if (file.isDirectory()) {
       File[] files = file.listFiles();
       List<Node> nodes = files == null ? Collections.emptyList() : Arrays.stream(files)
           .map(f -> scan(f, level + 1))
+          .filter(n -> !(n instanceof Node.NOther))
+          .filter(n -> !(n instanceof Node.NFolder && n.children.isEmpty()))
           .collect(Collectors.toList());
       long count = nodes.stream()
           .map(n -> n.count)
           .reduce(Long::sum)
           .orElse(0L);
-      return Node.Folder(file, level, count, nodes);
+      return new Node.NFolder(file, level, count, nodes);
     }
-    return Node.Other(file, level);
+    return new Node.NOther(file, level);
   }
 
   public List<RowInfo> represent(Node node, List<RowInfo> items) {
     items.add(new RowInfo(node.level, last(node.file), node.count));
     node.children.stream()
-        .filter(n -> n.count > 0)
         .sorted(Comparator.comparing(o -> last(o.file)))
         .forEach(n -> represent(n, items));
     return items;

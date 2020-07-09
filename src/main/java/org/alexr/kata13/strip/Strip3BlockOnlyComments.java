@@ -12,12 +12,12 @@ public final class Strip3BlockOnlyComments implements Strip, Patterns {
     if (ls.inBlock) {
       final int cl_pos = ls.find(CLOSE);
       return cl_pos >= 0 ?
-          ls.moveTo(cl_pos).shift(CLOSE.length()).sw() :
+          ls.moveTo(cl_pos).shift(CLOSE.length()).swBlock() :
           ls.skipRest();
     }
     final int op_pos = ls.find(OPEN);
     return op_pos >= 0 ?
-        ls.saveTo(op_pos).shift(OPEN.length()).sw() :
+        ls.saveTo(op_pos).shift(OPEN.length()).swBlock() :
         ls.saveRest();
   }
 }

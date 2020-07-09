@@ -23,13 +23,13 @@ public final class Strip4AllComments implements Strip, Patterns {
   public LineState process(LineState ls) {
     if (ls.inBlock) {
       final int cl_pos = ls.find(CLOSE);
-      return cl_pos >= 0 ? ls.moveTo(cl_pos).shift(CLOSE.length()).sw() :
+      return cl_pos >= 0 ? ls.moveTo(cl_pos).shift(CLOSE.length()).swBlock() :
                            ls.skipRest();
     }
     final int op_pos = ls.find(OPEN);
     final int ln_pos = ls.find(LINE);
     return
-        isOpen(op_pos, ln_pos) ? ls.saveTo(op_pos).shift(OPEN.length()).sw() :
+        isOpen(op_pos, ln_pos) ? ls.saveTo(op_pos).shift(OPEN.length()).swBlock() :
         isLine(op_pos, ln_pos) ? ls.saveTo(ln_pos).skipRest() :
                                  ls.saveRest();
   }
