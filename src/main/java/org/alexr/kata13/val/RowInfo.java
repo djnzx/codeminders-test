@@ -1,6 +1,6 @@
 package org.alexr.kata13.val;
 
-import java.util.Arrays;
+import org.alexr.kata13.util.Functions;
 
 public final class RowInfo {
   public final int level;
@@ -15,16 +15,10 @@ public final class RowInfo {
     this.count = count;
   }
 
-  public String indent() {
-    byte[] bs = new byte[level * LEVEL_SIZE];
-    Arrays.fill(bs, (byte) ' ');
-    return new String(bs);
-  }
-
   @Override
   public String toString() {
     return String.format("%s%s : %d",
-        indent(), name, count);
+        Functions.indent(level, LEVEL_SIZE), name, count);
   }
 }
 

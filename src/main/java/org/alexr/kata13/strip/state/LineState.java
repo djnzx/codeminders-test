@@ -53,7 +53,7 @@ public final class LineState {
     return input.indexOf(sub, pos);
   }
 
-  public boolean done() {
+  public boolean isDone() {
     return pos >= input.length();
   }
 

@@ -1,10 +1,11 @@
-package org.alexr.kata13.fp;
+package org.alexr.kata13.util;
 
 import java.util.Iterator;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public class Fold {
+
   public static <C, A> A fold(Stream<C> data, A zero, BiFunction<A, C, A> f) {
     return fold(data.iterator(), zero, f);
   }

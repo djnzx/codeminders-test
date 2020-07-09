@@ -25,8 +25,15 @@ public abstract class Node {
   }
 
   public static class NFolder extends Node {
-    public NFolder(File file, int level, long count, List<Node> children) {
-      super(file, level, count, children);
+    public NFolder(File file, int level, List<Node> children) {
+      super(
+          file,
+          level,
+          children.stream()
+            .map(n -> n.count)
+            .reduce(Long::sum)
+            .orElse(0L),
+          children);
     }
   }
 

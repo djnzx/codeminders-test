@@ -9,7 +9,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
-import static org.alexr.kata13.fp.Fold.fold;
+import static org.alexr.kata13.util.Fold.fold;
 
 public class LineCounter {
   private final Strip stripper;
@@ -22,7 +22,7 @@ public class LineCounter {
 
   public FileState fold_file(FileState acc, String line) {
     LineState ls = LineState.fresh(line, acc.inBlock);
-    while (!ls.done()) ls = stripper.process(ls);
+    while (!ls.isDone()) ls = stripper.process(ls);
     return acc.updated(counter.count(ls.result()), ls.inBlock);
   }
 

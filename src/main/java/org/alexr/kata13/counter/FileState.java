@@ -13,6 +13,10 @@ public final class FileState {
     return new FileState(0, false);
   }
 
+  public FileState updated(int delta) {
+    return updated(delta, inBlock);
+  }
+
   public FileState updated(int delta, boolean inBlock) {
     return new FileState(count + delta, inBlock);
   }
