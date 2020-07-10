@@ -37,19 +37,17 @@ public class TreeScanner {
     return new Node.NOther(file, level);
   }
 
-  public List<RowInfo> represent(Node node, List<RowInfo> items) {
-    items.add(new RowInfo(node.level, lastChunk(node.file), node.count));
-    node.children.stream()
-        .sorted(Comparator.comparing(o -> lastChunk(o.file)))
-        .forEach(n -> represent(n, items));
-    return items;
+  public Stream<RowInfo> represent(Node node) {
+    return Stream.concat(
+        Stream.of(new RowInfo(node.level, lastChunk(node.file), node.count)),
+        node.children.stream()
+            .sorted(Comparator.comparing(o -> lastChunk(o.file)))
+            .flatMap(this::represent)
+    );
   }
 
   public Stream<String> process() {
-    return represent(
-        scan(root, 0),
-        new ArrayList<>()
-    ).stream()
+    return represent(scan(root, 0))
         .map(RowInfo::toString);
   }
 
