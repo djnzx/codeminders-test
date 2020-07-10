@@ -1,5 +1,7 @@
 package org.alexr.kata13.strip.state;
 
+import java.util.Objects;
+
 public final class LineState {
   private final String input;
   private final int pos;
@@ -69,7 +71,7 @@ public final class LineState {
     LineState that = (LineState) o;
     return this.pos == that.pos
         && this.inBlock == that.inBlock
-        && this.input.equals(that.input)
-        && this.result().equals(that.result());
+        && Objects.equals(input, that.input)
+        && Objects.equals(result(), that.result());
   }
 }

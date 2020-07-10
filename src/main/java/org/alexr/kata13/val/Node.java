@@ -3,6 +3,7 @@ package org.alexr.kata13.val;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class Node {
@@ -41,6 +42,19 @@ public abstract class Node {
     public NFile(File file, int level, Function<File, Long> counter) {
       super(file, level, counter.apply(file), Collections.emptyList());
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null) return false;
+    if (getClass() != o.getClass()) return false;
+
+    Node that = (Node) o;
+    return level == that.level
+        && count == that.count
+        && Objects.equals(file, that.file)
+        && Objects.equals(children, that.children);
   }
 
 }

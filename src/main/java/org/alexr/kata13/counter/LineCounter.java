@@ -26,11 +26,15 @@ public class LineCounter {
     return acc.updated(counter.count(ls.result()), ls.inBlock);
   }
 
+  public long count(Stream<String> stream) {
+    FileState zero = FileState.fresh();
+    return fold(stream, zero, this::fold_file).count;
+  }
+
   @SneakyThrows
-  public long run(File file) {
+  public long count(File file) {
     try (Stream<String> stream = Files.lines(file.toPath())) {
-      FileState zero = FileState.fresh();
-      return fold(stream, zero, this::fold_file).count;
+      return count(stream);
     }
   }
 }

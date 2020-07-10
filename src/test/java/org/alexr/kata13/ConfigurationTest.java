@@ -14,7 +14,7 @@ class ConfigurationTest {
   void counter_test() {
     assertEquals(
         39,
-        conf.counter().run(new File("./src/main/resources/Strip39.java"))
+        conf.counter().count(new File("./src/test/resources/Strip39.java"))
     );
   }
 
@@ -35,7 +35,7 @@ class ConfigurationTest {
   @Test
   void fileFilterT() {
     assertTrue(
-        conf.fileFilter(new File("./src/main/resources/Strip39.java"))
+        conf.fileFilter(new File("./src/test/resources/Strip39.java"))
     );
   }
 }

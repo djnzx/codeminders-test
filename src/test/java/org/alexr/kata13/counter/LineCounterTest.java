@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,8 +50,27 @@ class LineCounterTest {
   }
 
   @Test
-  void run_ok() {
-    String path = "./src/main/resources/";
+  void count_stream() {
+    Stream<String> data = Stream.of(
+        "// This file contains 3 lines of code",
+        "",
+        "public interface Dave {",
+        "  /**",
+        "   * count the number of lines in a file",
+        "   */",
+        "  int countLines(File inFile); // not the real signature!",
+        "}",
+        ""
+    );
+    assertEquals(
+        3,
+        lc.count(data)
+    );
+  }
+
+  @Test
+  void count_file_ok() {
+    String path = "./src/test/resources/";
     Object[][] dataset = {
         {39, "Strip39.java"},
         {3, "Test3.java"},
@@ -60,16 +80,16 @@ class LineCounterTest {
     Arrays.stream(dataset).forEach(item ->
       assertEquals(
           (int)item[0],
-          lc.run(new File(path + item[1]))
+          lc.count(new File(path + item[1]))
       )
     );
   }
 
   @Test
-  void run_ex() {
+  void count_file_ex() {
     assertThrows(
         NoSuchFileException.class,
-        () -> lc.run(new File("NonExistent.java"))
+        () -> lc.count(new File("NonExistent.java"))
     );
   }
 }

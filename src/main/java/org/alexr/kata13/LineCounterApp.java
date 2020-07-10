@@ -19,7 +19,7 @@ public class LineCounterApp {
   public static void main(String[] args) {
     File root_path = validate(args);
     Configuration config = new Configuration();
-    new TreeScanner(root_path, config.counter()::run, config::fileFilter)
+    new TreeScanner(root_path, config.counter()::count, config::fileFilter)
         .process()
         .forEach(System.out::println);
   }
