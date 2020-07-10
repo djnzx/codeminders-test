@@ -10,11 +10,15 @@ class ConfigurationTest {
 
   private Configuration conf = new Configuration();
 
+  private final File file = new File(
+      this.getClass().getClassLoader().getResource("Strip39.java").getFile()
+  );
+
   @Test
   void counter_test() {
     assertEquals(
         39,
-        conf.counter().count(new File("./src/test/resources/Strip39.java"))
+        conf.counter().count(file)
     );
   }
 
@@ -35,7 +39,7 @@ class ConfigurationTest {
   @Test
   void fileFilterT() {
     assertTrue(
-        conf.fileFilter(new File("./src/test/resources/Strip39.java"))
+        conf.fileFilter(file)
     );
   }
 }

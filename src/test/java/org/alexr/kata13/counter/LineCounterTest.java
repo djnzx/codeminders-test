@@ -70,7 +70,6 @@ class LineCounterTest {
 
   @Test
   void count_file_ok() {
-    String path = "./src/test/resources/";
     Object[][] dataset = {
         {39, "Strip39.java"},
         {3, "Test3.java"},
@@ -80,7 +79,9 @@ class LineCounterTest {
     Arrays.stream(dataset).forEach(item ->
       assertEquals(
           (int)item[0],
-          lc.count(new File(path + item[1]))
+          lc.count(new File(
+              this.getClass().getClassLoader().getResource((String)item[1]).getFile()
+          ))
       )
     );
   }
