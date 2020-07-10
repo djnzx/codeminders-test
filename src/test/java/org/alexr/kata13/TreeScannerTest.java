@@ -19,7 +19,6 @@ class TreeScannerTest {
   final File rootFolderPath = Paths.get("target", "test-classes").toAbsolutePath().toFile();
 
   private final TreeScanner ts = new TreeScanner(
-      rootFolderPath,
       conf.counter()::count,
       conf::fileFilter
   );
@@ -77,7 +76,7 @@ class TreeScannerTest {
         "  zerolines : 0",
         "    ABC.java : 0"
         ),
-        ts.process().collect(Collectors.toList())
+        ts.process(rootFolderPath).collect(Collectors.toList())
     );
   }
 

@@ -12,16 +12,19 @@ import java.util.stream.Stream;
 import static org.alexr.kata13.util.Functions.lastChunk;
 
 public class TreeScanner {
-  private final File root;
   private final Function<File, Long> counter;
   private final Function<File, Boolean> fileFilter;
 
-  public TreeScanner(File root, Function<File, Long> counter, Function<File, Boolean> fileFilter) {
-    this.root = root;
+  public TreeScanner(Function<File, Long> counter, Function<File, Boolean> fileFilter) {
     this.counter = counter;
     this.fileFilter = fileFilter;
   }
 
+  /**
+   * scans given folder/file to
+   * tree structure Node
+   * it returns root node
+   */
   public Node scan(File file, int level) {
     if (file.isFile() && fileFilter.apply(file)) return new Node.NFile(file, level, counter);
     if (file.isDirectory()) {
@@ -31,22 +34,30 @@ public class TreeScanner {
           .filter(n ->
               n instanceof Node.NFile ||
               n instanceof Node.NFolder && !n.children.isEmpty())
+          .sorted(Comparator.comparing(o -> lastChunk(o.file)))
           .collect(Collectors.toList());
       return new Node.NFolder(file, level, nodes);
     }
     return new Node.NOther(file, level);
   }
 
+  /**
+   * flattens given tree structure
+   * Stream<RowInfo>
+   */
   public Stream<RowInfo> represent(Node node) {
     return Stream.concat(
         Stream.of(new RowInfo(node.level, lastChunk(node.file), node.count)),
         node.children.stream()
-            .sorted(Comparator.comparing(o -> lastChunk(o.file)))
             .flatMap(this::represent)
     );
   }
 
-  public Stream<String> process() {
+  /**
+   * flattens given tree structure
+   * Stream<RowInfo>
+   */
+  public Stream<String> process(File root) {
     return represent(scan(root, 0))
         .map(RowInfo::toString);
   }
