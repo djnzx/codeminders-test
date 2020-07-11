@@ -62,13 +62,6 @@ public final class LineState {
     return input.indexOf(sub, pos);
   }
 
-  /**
-   * it finds first token according to current status
-   */
-  public Optional<Token> findFirstToken() {
-    return Token.findFirst(this);
-  }
-
   public STATE state() {
     if (inString) return STRING;
     if (inBlock) return BLOCK;

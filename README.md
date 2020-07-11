@@ -29,7 +29,7 @@ basic description [here](http://codekata.com/kata/kata13-counting-code-lines)
 based on
 - proper syntax analysis
 - FSM
-- Immutable state management
+- NO MUTABLE STATE IN THE WHOLE APP
 - FP fold techniques
 
 it actually not just count,
