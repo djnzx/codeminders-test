@@ -1,5 +1,6 @@
-package org.alexr.kata13.strip;
+package org.alexr.kata13.strip.other;
 
+import org.alexr.kata13.strip.Strip;
 import org.alexr.kata13.strip.state.LineState;
 
 /**

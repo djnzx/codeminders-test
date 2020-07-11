@@ -2,7 +2,7 @@ package org.alexr.kata13;
 
 import org.alexr.kata13.count.CountNonBlank;
 import org.alexr.kata13.counter.StripAndCount;
-import org.alexr.kata13.strip.Strip5AllCommentsStringCare;
+import org.alexr.kata13.strip.Strip5Wisely;
 
 import java.io.File;
 
@@ -25,7 +25,7 @@ public class Configuration {
 //        new Strip4AllComments(),
 //        new CountNonBlank()       // 39 = 52 - 6 - 7
 
-        new Strip5AllCommentsStringCare(),
+        new Strip5Wisely(),
         new CountNonBlank()       // 39 = 52 - 6 - 7, // 6 not 5
     );
   }

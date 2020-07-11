@@ -1,7 +1,7 @@
 package org.alexr.kata13.counter;
 
 import org.alexr.kata13.count.CountNonBlank;
-import org.alexr.kata13.strip.Strip5AllCommentsStringCare;
+import org.alexr.kata13.strip.Strip5Wisely;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StripAndCountTest {
 
   private final StripAndCount sac = new StripAndCount(
-      new Strip5AllCommentsStringCare(),
+      new Strip5Wisely(),
       new CountNonBlank()
   );
 
