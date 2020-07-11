@@ -3,6 +3,9 @@ package org.alexr.kata13.util;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.alexr.kata13.util.Functions.*;
@@ -86,6 +89,22 @@ class FunctionsTest {
     assertEquals(
         "src",
         lastChunk(new File("/usr/src"))
+    );
+  }
+
+  @Test
+  void safeStream1() {
+    assertEquals(
+        Collections.emptyList(),
+        safeStream(null).collect(Collectors.toList())
+    );
+  }
+
+  @Test
+  void safeStream2() {
+    assertEquals(
+        Arrays.asList("A", "B"),
+        safeStream(new String[]{"A", "B"}).collect(Collectors.toList())
     );
   }
 

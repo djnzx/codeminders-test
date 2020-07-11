@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LineCounterTest {
+class StripAndCountTest {
 
-  private final LineCounter lc = new LineCounter(
+  private final StripAndCount sac = new StripAndCount(
       new Strip5AllCommentsStringCare(),
       new CountNonBlank()
   );
@@ -24,27 +24,27 @@ class LineCounterTest {
     assertEquals(0, fs0.count);
     assertFalse(fs0.inBlock);
 
-    FileState fs1 = lc.fold_file(fs0, "// comment");
+    FileState fs1 = sac.fold_file(fs0, "// comment");
     assertEquals(0, fs1.count);
     assertFalse(fs1.inBlock);
 
-    FileState fs2 = lc.fold_file(fs1, "  int x = 5;");
+    FileState fs2 = sac.fold_file(fs1, "  int x = 5;");
     assertEquals(1, fs2.count);
     assertFalse(fs2.inBlock);
 
-    FileState fs3 = lc.fold_file(fs2, "  int /* block */ y = 1;");
+    FileState fs3 = sac.fold_file(fs2, "  int /* block */ y = 1;");
     assertEquals(2, fs3.count);
     assertFalse(fs3.inBlock);
 
-    FileState fs4 = lc.fold_file(fs3, "  /*int x = 15;");
+    FileState fs4 = sac.fold_file(fs3, "  /*int x = 15;");
     assertEquals(2, fs4.count);
     assertTrue(fs4.inBlock);
 
-    FileState fs5 = lc.fold_file(fs4, "  int x = 16;*/");
+    FileState fs5 = sac.fold_file(fs4, "  int x = 16;*/");
     assertEquals(2, fs5.count);
     assertFalse(fs5.inBlock);
 
-    FileState fs6 = lc.fold_file(fs5, "  println(x)");
+    FileState fs6 = sac.fold_file(fs5, "  println(x)");
     assertEquals(3, fs6.count);
     assertFalse(fs6.inBlock);
   }
@@ -64,7 +64,7 @@ class LineCounterTest {
     );
     assertEquals(
         3,
-        lc.count(data)
+        sac.count(data)
     );
   }
 
@@ -79,7 +79,7 @@ class LineCounterTest {
     Arrays.stream(dataset).forEach(item ->
       assertEquals(
           (int)item[0],
-          lc.count(new File(
+          sac.count(new File(
               this.getClass().getClassLoader().getResource((String)item[1]).getFile()
           ))
       )
@@ -90,7 +90,7 @@ class LineCounterTest {
   void count_file_ex() {
     assertThrows(
         NoSuchFileException.class,
-        () -> lc.count(new File("NonExistent.java"))
+        () -> sac.count(new File("NonExistent.java"))
     );
   }
 }

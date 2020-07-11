@@ -2,6 +2,7 @@ package org.alexr.kata13.util;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class Functions {
 
@@ -14,6 +15,14 @@ public class Functions {
   public static String lastChunk(File f) {
     String[] chunks = f.toPath().toString().split("/");
     return chunks[chunks.length - 1];
+  }
+
+  public static <A> Stream<A> safeStream(A[] origin) {
+    return origin != null ? Arrays.stream(origin) : Stream.empty();
+  }
+
+  public static File fileFromRes(String fname) {
+    return new File(Functions.class.getClassLoader().getResource(fname).getFile());
   }
 
 }
