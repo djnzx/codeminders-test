@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import static org.alexr.kata13.strip.state.STATE.*;
 import static org.alexr.kata13.util.Predef.SYNTAX;
 
 public abstract class Token implements Patterns {
@@ -17,8 +16,8 @@ public abstract class Token implements Patterns {
     this.at = at;
   }
 
-  private static Stream<BiFunction<String, Integer, Optional<Token>>> byState(LineState ls) {
-    switch (state(ls)) {
+  private static Stream<BiFunction<String, Integer, Optional<Token>>> possibleTokensByState(LineState ls) {
+    switch (ls.state()) {
       case CODE:   return Stream.of(TkQuote::find, TkBlockOp::find, TkLine::find);
       case BLOCK:  return Stream.of(TkBlockCl::find);
       case STRING: return Stream.of(TkQuote::find, TkXQuote::find);
@@ -27,10 +26,9 @@ public abstract class Token implements Patterns {
   }
 
   private static Stream<Token> findAll(LineState ls) {
-    return byState(ls)
+    return possibleTokensByState(ls)
         .map(f -> f.apply(ls.input, ls.pos))
-        .filter(Optional::isPresent)
-        .map(Optional::get);
+        .flatMap(Optional::stream);
   }
 
   public static Optional<Token> findFirst(LineState ls) {
@@ -52,7 +50,7 @@ public abstract class Token implements Patterns {
 
     @Override
     public LineState modify(LineState ls) {
-      switch (state(ls)) {
+      switch (ls.state()) {
         case CODE:
         case STRING: return ls.saveTo(at + QUOTE.length()).swString();
       }
@@ -73,7 +71,7 @@ public abstract class Token implements Patterns {
 
     @Override
     public LineState modify(LineState ls) {
-      switch (state(ls)) {
+      switch (ls.state()) {
         case STRING: return ls.saveTo(at + XQUOTE.length());
       }
       throw SYNTAX;
@@ -93,7 +91,7 @@ public abstract class Token implements Patterns {
 
     @Override
     public LineState modify(LineState ls) {
-      switch (state(ls)) {
+      switch (ls.state()) {
         case CODE:   return ls.saveTo(at).shift(OPEN.length()).swBlock();
       }
       throw SYNTAX;
@@ -112,7 +110,7 @@ public abstract class Token implements Patterns {
 
     @Override
     public LineState modify(LineState ls) {
-      switch (state(ls)) {
+      switch (ls.state()) {
         case BLOCK:  return ls.moveTo(at).shift(CLOSE.length()).swBlock();
       }
       throw SYNTAX;
@@ -131,7 +129,7 @@ public abstract class Token implements Patterns {
 
     @Override
     public LineState modify(LineState ls) {
-      switch (state(ls)) {
+      switch (ls.state()) {
         case CODE:   return ls.saveTo(at).skipRest();
       }
       throw SYNTAX;

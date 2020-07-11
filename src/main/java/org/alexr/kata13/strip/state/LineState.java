@@ -6,6 +6,8 @@ import org.alexr.kata13.strip.Token;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.alexr.kata13.strip.state.STATE.*;
+
 @ToString
 public final class LineState {
   public final String input;
@@ -65,6 +67,12 @@ public final class LineState {
    */
   public Optional<Token> findFirstToken() {
     return Token.findFirst(this);
+  }
+
+  public STATE state() {
+    if (inString) return STRING;
+    if (inBlock) return BLOCK;
+    return CODE;
   }
 
   public boolean isDone() {
