@@ -1,10 +1,15 @@
 package org.alexr.kata13.strip.state;
 
-import java.util.Objects;
+import lombok.ToString;
+import org.alexr.kata13.strip.Token;
 
+import java.util.Objects;
+import java.util.Optional;
+
+@ToString
 public final class LineState {
-  private final String input;
-  private final int pos;
+  public final String input;
+  public final int pos;
   private final StringBuilder output;
   public final boolean inBlock;
   public final boolean inString;
@@ -53,6 +58,13 @@ public final class LineState {
 
   public int find(String sub) {
     return input.indexOf(sub, pos);
+  }
+
+  /**
+   * it finds first token according to current status
+   */
+  public Optional<Token> findFirstToken() {
+    return Token.findFirst(this);
   }
 
   public boolean isDone() {

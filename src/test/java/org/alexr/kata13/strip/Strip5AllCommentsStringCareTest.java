@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Strip5AllCommentsStringCareTest {
 
-  private final Strip strip = new Strip5AllCommentsStringCare();
+  private final Strip strip = new Strip5Wisely();
 
   private final LineState s1 = LineState.fresh("// This file contains 3 lines of code", false);
   private final LineState s2 = LineState.fresh("public interface Dave {", false);
