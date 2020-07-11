@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 import static org.alexr.kata13.util.Fold.fold;
 
-public class LineCounter {
+public class StripAndCount {
   private final Strip stripper;
   private final Count counter;
 
-  public LineCounter(Strip stripper, Count counter) {
+  public StripAndCount(Strip stripper, Count counter) {
     this.stripper = stripper;
     this.counter = counter;
   }

@@ -18,9 +18,9 @@ public class LineCounterApp {
 
   public static void main(String[] args) {
     File root_path = validate(args);
-    Configuration config = new Configuration();
-    new TreeScanner(config.counter()::count, config::fileFilter)
-        .process(root_path)
+    Configuration conf = new Configuration();
+    new LineCounter(conf::fileFilter, conf.counter()::count)
+        .processParallel(root_path)
         .forEach(System.out::println);
   }
 }

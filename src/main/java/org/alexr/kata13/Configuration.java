@@ -1,16 +1,15 @@
 package org.alexr.kata13;
 
 import org.alexr.kata13.count.CountNonBlank;
-import org.alexr.kata13.counter.LineCounter;
+import org.alexr.kata13.counter.StripAndCount;
 import org.alexr.kata13.strip.Strip5AllCommentsStringCare;
-import org.alexr.kata13.strip.Strip6StripAll;
 
 import java.io.File;
 
 public class Configuration {
 
-  public LineCounter counter() {
-    return new LineCounter(
+  public StripAndCount counter() {
+    return new StripAndCount(
 //        new Strip1Nothing(),
 //        new CountAll()                // 61
 

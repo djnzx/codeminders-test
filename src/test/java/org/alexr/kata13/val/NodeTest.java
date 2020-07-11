@@ -22,15 +22,6 @@ class NodeTest {
   private final Node nfi3 = new Node.NFile(f3, 3, f -> 300L);
   private final List<Node> children = Arrays.asList(nfi1, nfi2, nfi3);
   private final Node nfo = new Node.NFolder(fld, 2, children);
-  private final Node no = new Node.NOther(f5, 4);
-
-  @Test
-  public void test_other_constructor() {
-    assertEquals(no.file, f5);
-    assertEquals(no.level, 4);
-    assertEquals(no.count, 0L);
-    assertEquals(no.children, Collections.emptyList());
-  }
 
   @Test
   public void test_file_constructor() {
