@@ -9,7 +9,7 @@ import org.alexr.kata13.strip.state.LineState;
  */
 public final class Strip1Nothing implements Strip {
   @Override
-  public LineState process(LineState ls) {
+  public LineState apply(LineState ls) {
     return ls.saveRest();
   }
 }

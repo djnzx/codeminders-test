@@ -19,7 +19,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process1() {
-    LineState s1a = strip.process(s1);
+    LineState s1a = strip.apply(s1);
     assertEquals("", s1a.result());
     assertFalse(s1a.inBlock);
     assertFalse(s1a.inString);
@@ -28,7 +28,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process2() {
-    LineState s2a = strip.process(s2);
+    LineState s2a = strip.apply(s2);
     assertEquals("public interface Dave {", s2a.result());
     assertFalse(s2a.inBlock);
     assertFalse(s2a.inString);
@@ -37,7 +37,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process3() {
-    LineState s3a = strip.process(s3);
+    LineState s3a = strip.apply(s3);
     assertEquals("  ", s3a.result());
     assertTrue(s3a.inBlock);
     assertFalse(s3a.inString);
@@ -46,7 +46,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process4() {
-    LineState s4a = strip.process(s4);
+    LineState s4a = strip.apply(s4);
     assertEquals("", s4a.result());
     assertTrue(s4a.inBlock);
     assertFalse(s4a.inString);
@@ -55,7 +55,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process5() {
-    LineState s5a = strip.process(s5);
+    LineState s5a = strip.apply(s5);
     assertEquals("", s5a.result());
     assertTrue(s5a.isDone());
     assertFalse(s5a.inBlock);
@@ -64,7 +64,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process6() {
-    LineState s6a = strip.process(s6);
+    LineState s6a = strip.apply(s6);
     assertEquals("  int countLines(File inFile); ", s6a.result());
     assertTrue(s6a.isDone());
     assertFalse(s6a.inBlock);
@@ -73,7 +73,7 @@ class Strip5AllCommentsStringCareTest {
 
   @Test
   void process7() {
-    LineState s7a = strip.process(s7);
+    LineState s7a = strip.apply(s7);
     assertEquals("}", s7a.result());
     assertTrue(s7a.isDone());
     assertFalse(s7a.inBlock);
@@ -88,13 +88,13 @@ class Strip5AllCommentsStringCareTest {
     assertFalse(s10.inBlock);
     assertFalse(s10.inString);
 
-    LineState s10a = strip.process(s10);
+    LineState s10a = strip.apply(s10);
     assertEquals("String s = \"", s10.result());
     assertFalse(s10a.isDone());
     assertFalse(s10a.inBlock);
     assertTrue(s10a.inString);
 
-    LineState s10b = strip.process(s10a);
+    LineState s10b = strip.apply(s10a);
     assertEquals("String s = \"hello/*\"", s10b.result());
     assertTrue(s10b.isDone());
     assertFalse(s10b.inBlock);
@@ -111,21 +111,21 @@ class Strip5AllCommentsStringCareTest {
     assertFalse(s10.inString);
 
     // 1-st pass
-    LineState s10a = strip.process(s10);
+    LineState s10a = strip.apply(s10);
     assertEquals("String s = \"", s10.result());
     assertFalse(s10a.isDone());
     assertFalse(s10a.inBlock);
     assertTrue(s10a.inString);
 
     // 2-nd pass
-    LineState s10b = strip.process(s10a);
+    LineState s10b = strip.apply(s10a);
     assertEquals("String s = \"hell\\\"", s10b.result());
     assertFalse(s10b.isDone());
     assertFalse(s10b.inBlock);
     assertTrue(s10b.inString);
 
     // 3-rd pass
-    LineState s10c = strip.process(s10b);
+    LineState s10c = strip.apply(s10b);
     assertEquals("String s = \"hell\\\"o/*\"", s10c.result());
     assertTrue(s10c.isDone());
     assertFalse(s10c.inBlock);
@@ -142,14 +142,14 @@ class Strip5AllCommentsStringCareTest {
     assertFalse(s10.inString);
 
     // 1-st pass
-    LineState s10a = strip.process(s10);
+    LineState s10a = strip.apply(s10);
     assertEquals("String s = \"", s10.result());
     assertFalse(s10a.isDone());
     assertFalse(s10a.inBlock);
     assertTrue(s10a.inString);
 
     // 2-nd pass
-    LineState s10b = strip.process(s10a);
+    LineState s10b = strip.apply(s10a);
     assertEquals("String s = \"wrong syntax", s10b.result());
     assertTrue(s10b.isDone());
     assertFalse(s10b.inBlock);

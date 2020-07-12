@@ -22,7 +22,7 @@ public class StripAndCount {
 
   public FileState fold_file(FileState acc, String line) {
     LineState ls = LineState.fresh(line, acc.inBlock);
-    while (!ls.isDone()) ls = stripper.process(ls);
+    while (!ls.isDone()) ls = stripper.apply(ls);
     return acc.updated(counter.count(ls.result()), ls.inBlock);
   }
 

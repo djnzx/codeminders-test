@@ -10,7 +10,7 @@ import org.alexr.kata13.strip.state.LineState;
  */
 public final class Strip3BlockOnlyComments implements Strip, Patterns {
   @Override
-  public LineState process(LineState ls) {
+  public LineState apply(LineState ls) {
     if (ls.inBlock) {
       final int cl_pos = ls.find(CLOSE);
       return cl_pos >= 0 ?

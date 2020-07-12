@@ -22,7 +22,7 @@ public final class Strip4AllComments implements Strip, Patterns {
         || op_pos <  0 && ln_pos >= 0;
   }
 
-  public LineState process(LineState ls) {
+  public LineState apply(LineState ls) {
     if (ls.inBlock) {
       final int cl_pos = ls.find(CLOSE);
       return cl_pos >= 0 ? ls.moveTo(cl_pos).shift(CLOSE.length()).swBlock() :
